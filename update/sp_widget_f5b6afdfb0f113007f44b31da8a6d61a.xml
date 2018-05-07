@@ -47,7 +47,23 @@
 	}
 }	]]></client_script>
         <controller_as>c</controller_as>
-        <css/>
+        <css>.help, .help-tool {
+  font-size: 80%;
+  margin-left: 10px;
+}
+
+.help {
+  cursor: pointer;
+}
+
+.hideHelp {
+  display: none;
+}
+
+.helpActive {
+  color: #558BC5;
+  font-weight: bold;
+}</css>
         <data_table>sp_instance</data_table>
         <demo_data/>
         <description/>
@@ -56,7 +72,21 @@
         <has_preview>true</has_preview>
         <id>registration_form</id>
         <internal>false</internal>
-        <link/>
+        <link><![CDATA[function() {
+	$(".help-tool").addClass('hideHelp')
+	$(".help").click(function() {
+		$(".help-tool").toggleClass("hideHelp");
+	});
+}
+
+$(".help").click(function() {
+	if($('.help-tool').hasClass('hideHelp')) {
+		$('.help').addClass('helpActive');
+	}
+	else {
+		$('.help').removeClass('helpActive');
+	}
+});]]></link>
         <name>Registration Form</name>
         <option_schema/>
         <public>false</public>
@@ -147,14 +177,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-05-06 17:23:09</sys_created_on>
         <sys_id>f5b6afdfb0f113007f44b31da8a6d61a</sys_id>
-        <sys_mod_count>16</sys_mod_count>
+        <sys_mod_count>26</sys_mod_count>
         <sys_name>Registration Form</sys_name>
         <sys_package display_value="Cloud Dimensions Events" source="x_snc_cloudevents">77108b70610813007f44e59882b97a67</sys_package>
         <sys_policy/>
         <sys_scope display_value="Cloud Dimensions Events">77108b70610813007f44e59882b97a67</sys_scope>
         <sys_update_name>sp_widget_f5b6afdfb0f113007f44b31da8a6d61a</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-05-06 20:19:35</sys_updated_on>
+        <sys_updated_on>2018-05-07 16:17:46</sys_updated_on>
         <template><![CDATA[<form name="registration" class="form-horizontal cloud-wedgets" novalidate
       ng-submit="c.submitForm(registration.$valid)">
   
@@ -224,6 +254,10 @@
       <input id="email" name="email" type="text" placeholder="Email" class="form-control input-md"
              ng-model="c.email"
              ng-required="true">
+      <i class="help">Read help...</i>
+      <p class="help-tool">
+        This field requires a unique email address with an '@' symbol and at least one period
+      </p>
       <p class="help-block"
          ng-show="registration.email.$invalid && c.submitted">
         Field is required.</p>

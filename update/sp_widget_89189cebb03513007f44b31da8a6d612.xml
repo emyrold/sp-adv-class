@@ -57,7 +57,12 @@
 	
 }	]]></client_script>
         <controller_as>c</controller_as>
-        <css>.badge{background: red;}</css>
+        <css>.badge{background: red;}
+
+.customClass .tooltip-inner {
+  color: white;
+  background-color: red;
+}</css>
         <data_table>sp_instance_table</data_table>
         <demo_data/>
         <description/>
@@ -131,14 +136,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-05-06 20:58:49</sys_created_on>
         <sys_id>89189cebb03513007f44b31da8a6d612</sys_id>
-        <sys_mod_count>26</sys_mod_count>
+        <sys_mod_count>27</sys_mod_count>
         <sys_name>Table Summary</sys_name>
         <sys_package display_value="Cloud Dimensions Events" source="x_snc_cloudevents">77108b70610813007f44e59882b97a67</sys_package>
         <sys_policy/>
         <sys_scope display_value="Cloud Dimensions Events">77108b70610813007f44e59882b97a67</sys_scope>
         <sys_update_name>sp_widget_89189cebb03513007f44b31da8a6d612</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-05-06 22:47:06</sys_updated_on>
+        <sys_updated_on>2018-05-07 16:34:59</sys_updated_on>
         <template><![CDATA[<form>
 
   <!-- Step 2. Display initial data from the server -->
@@ -147,7 +152,8 @@
     <!-- Default panel contents -->
     <div class="panel-heading">
       <span class="fa fa-bolt"
-            ng-show="c.updatedFromServer"></span>
+            ng-show="c.updatedFromServer"
+            uib-tooltip="I can have a custom class applied to me!" tooltip-class="customClass"></span>
       {{ ::options.title }}</div>
 
     <!-- List group -->
