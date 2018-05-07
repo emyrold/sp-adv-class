@@ -2,7 +2,7 @@
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
         <category>custom</category>
-        <client_script><![CDATA[function() {
+        <client_script><![CDATA[function(spUserAvatar) {
    /* widget controller */
    var c = this;
 
@@ -18,6 +18,17 @@
 		})
 	}
 	
+	_.each(c.data.events, function(ev) {
+		
+		/* call the getAvatar method on the serAvatar service
+		and pass it the sys_id of the Event's presenter */
+		var avatar = spUserAvatar.getAvatar(ev.presenter.value).then(function(rsp) {
+			//add a new avatar property to current event
+			ev.avatar=rsp;
+		});
+		
+		
+	})
 	
 	
 }	]]></client_script>
@@ -29,7 +40,7 @@
         <docs/>
         <field_list/>
         <has_preview>true</has_preview>
-        <id>event_information</id>
+        <id>event-information</id>
         <internal>false</internal>
         <link/>
         <name>Event Information</name>
@@ -43,7 +54,7 @@
 	/* e.g., data.table = $sp.getValue('table'); */
 
 	if(!input) {
-		var fields = 'sys_id,name,description,start_date,end_date,certification,certification_name,location';
+		var fields = 'sys_id,name,description,start_date,end_date,certification,certification_name,location,presenter';
 
 		data.events=[ ];
 
@@ -84,14 +95,14 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-05-07 16:54:12</sys_created_on>
         <sys_id>a7a9ac37b03913007f44b31da8a6d66e</sys_id>
-        <sys_mod_count>9</sys_mod_count>
+        <sys_mod_count>12</sys_mod_count>
         <sys_name>Event Information</sys_name>
         <sys_package display_value="Cloud Dimensions Events" source="x_snc_cloudevents">77108b70610813007f44e59882b97a67</sys_package>
         <sys_policy/>
         <sys_scope display_value="Cloud Dimensions Events">77108b70610813007f44e59882b97a67</sys_scope>
         <sys_update_name>sp_widget_a7a9ac37b03913007f44b31da8a6d66e</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-05-07 17:42:30</sys_updated_on>
+        <sys_updated_on>2018-05-07 19:52:15</sys_updated_on>
         <template><![CDATA[<form>
 
   <!-- Step 2. Display initial data from the server -->
@@ -109,14 +120,25 @@
         <dt>{{val.label}}</dt>
         <dd>{{val.display_value}}</dd>
       </dl>
-      
+
+      <!-- Presenter's Avatar -->
+      <div class="avatar-extra-large avatar-container margin-bottom-10"
+           style="cursor:default;"
+           uib-tooltip="{{event.presenter.display_value}}">
+        <div class="avatar soloAvatar bottom">
+          <div class="sub-avatar mia" ng-style="event.avatar">
+            <i class="fa fa-user"></i>
+          </div>
+        </div>
+      </div>
+
       <tags-input class="margin-bottom-10"
                   placeholder="{{c.placeholderText}}"
                   use-strings="true"
                   ng-model="event.tags"
                   ng-disabled="c.data.isReadOnly">
       </tags-input>
-      
+
       <input type="button" value="Save" class="btn-primary"
              ng-if="!c.data.isReadOnly"
              ng-click="c.saveTags(event)">
