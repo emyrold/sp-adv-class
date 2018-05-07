@@ -8,6 +8,16 @@
 
    /* Step 3. Accept user input */
 	
+	c.saveTags = function(event) {
+		c.server.get({
+			tags: event.tags,
+			sys_id: event.sys_id.value
+		}).then(function(rsp) {
+			c.data.msg= rsp.data.msg;
+			c.data.state=rsp.data.state;
+		})
+	}
+	
 	
 	
 }	]]></client_script>
@@ -29,33 +39,43 @@
         <script><![CDATA[(function() {
 
 	/* Step 1. Load initial data from the server */
-			/* populate the 'data' object */
-			/* e.g., data.table = $sp.getValue('table'); */
+	/* populate the 'data' object */
+	/* e.g., data.table = $sp.getValue('table'); */
 
 	if(!input) {
-		
 		var fields = 'sys_id,name,description,start_date,end_date,certification,certification_name,location';
-		
-		data.events = [];
-		
+
+		data.events=[ ];
+
 		var gr = new GlideRecord('x_snc_cloudevents_events');
 		gr.addActiveQuery();
 		gr.query();
 		
-		while (gr.next()) {
+		while(gr.next()) {
 			var o = $sp.getFieldsObject(gr,fields);
 			o.tags = gr.tags.toString().split(',');
 			data.events.push(o);
 		}
-		
+
 	}
 
 
 
 	/* Step 4. Process user input */
-	
+
 	if(input) {
 		
+		var updateTags = new GlideRecord('x_snc_cloudevents_events');
+		updateTags.get(input.sys_id);
+		updateTags.tags=input.tags.join(',');
+		
+		var result=updateTags.update();
+		
+		if(result) {
+			data.msg='Tags saved';
+			data.state='success';
+		}
+
 	}
 
 })();	]]></script>
@@ -64,37 +84,51 @@
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2018-05-07 16:54:12</sys_created_on>
         <sys_id>a7a9ac37b03913007f44b31da8a6d66e</sys_id>
-        <sys_mod_count>4</sys_mod_count>
+        <sys_mod_count>9</sys_mod_count>
         <sys_name>Event Information</sys_name>
         <sys_package display_value="Cloud Dimensions Events" source="x_snc_cloudevents">77108b70610813007f44e59882b97a67</sys_package>
         <sys_policy/>
         <sys_scope display_value="Cloud Dimensions Events">77108b70610813007f44e59882b97a67</sys_scope>
         <sys_update_name>sp_widget_a7a9ac37b03913007f44b31da8a6d66e</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2018-05-07 17:10:50</sys_updated_on>
+        <sys_updated_on>2018-05-07 17:42:30</sys_updated_on>
         <template><![CDATA[<form>
-  
+
   <!-- Step 2. Display initial data from the server -->
   <uib-tabset class="cloud-widgets">
     <legend>Event Details</legend>
-    
+
     <!-- Display each Event on a separate tab -->
     <uib-tab heading="{{event.name.display_value}}"
              ng-repeat="event in c.data.events">
-      
       <div class="margin-bottom-10"></div>
-    
-    
+
+      <!-- Bootstrap's Description List displays record details on the tab -->
+      <dl ng-repeat="(key,val) in event"
+          ng-if="key != 'sys_id' && val.label.length && val.display_value.length">
+        <dt>{{val.label}}</dt>
+        <dd>{{val.display_value}}</dd>
+      </dl>
+      
+      <tags-input class="margin-bottom-10"
+                  placeholder="{{c.placeholderText}}"
+                  use-strings="true"
+                  ng-model="event.tags"
+                  ng-disabled="c.data.isReadOnly">
+      </tags-input>
+      
+      <input type="button" value="Save" class="btn-primary"
+             ng-if="!c.data.isReadOnly"
+             ng-click="c.saveTags(event)">
+
     </uib-tab>
   </uib-tabset>
-  
-  
-  
+
+
   <!-- Step 5. Display customized content based on user input -->
-  
-  
-  
-</form>
-	]]></template>
+
+  <!-- add this for debugging <pre>{{c.data.events | json}}</pre> --> 
+
+</form>]]></template>
     </sp_widget>
 </record_update>
