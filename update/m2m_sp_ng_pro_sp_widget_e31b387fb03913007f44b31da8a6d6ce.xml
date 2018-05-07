@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="m2m_sp_ng_pro_sp_widget">
+    <m2m_sp_ng_pro_sp_widget action="INSERT_OR_UPDATE">
+        <sp_angular_provider display_value="spTimeAgo">741a747fb03913007f44b31da8a6d602</sp_angular_provider>
+        <sp_widget display_value="Table Summary">89189cebb03513007f44b31da8a6d612</sp_widget>
+        <sys_class_name>m2m_sp_ng_pro_sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2018-05-07 18:10:23</sys_created_on>
+        <sys_id>e31b387fb03913007f44b31da8a6d6ce</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>spTimeAgo.Table Summary</sys_name>
+        <sys_package display_value="Cloud Dimensions Events" source="x_snc_cloudevents">77108b70610813007f44e59882b97a67</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Cloud Dimensions Events">77108b70610813007f44e59882b97a67</sys_scope>
+        <sys_update_name>m2m_sp_ng_pro_sp_widget_e31b387fb03913007f44b31da8a6d6ce</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2018-05-07 18:10:23</sys_updated_on>
+    </m2m_sp_ng_pro_sp_widget>
+</record_update>
